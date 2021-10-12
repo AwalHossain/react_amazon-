@@ -1,0 +1,17 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+input[type="email"],
+[type="password"] {
+  margin-bottom: 10px;
+}
+.btm {
+  margin-left: -45px;
+}
+.btm h2 {
+  margin-bottom: 5px;
+}

@@ -69,9 +69,27 @@ const addToDb =(id)=>{
   localStorage.setItem('shopping_cart', JSON.stringify(shopping_cart))
 }
 
+const removeDb =(id)=>{
+  const getDb=localStorage.getItem('shopping_cart');
+  if(!getDb){
+
+  }
+  else{
+    const cart = JSON.parse(getDb);
+      delete cart[id]
+      localStorage.setItem('shopping_cart', JSON.stringify(cart))
+  }
+}
+
+
 const getStoredCart =()=>{
   const exist  = localStorage.getItem('shopping_cart')
   return exist? JSON.parse(exist) : {}
 }
 
-export {addToDb, getStoredCart}
+const clearDb = ()=>{
+  localStorage.removeItem('shopping_cart')
+}
+
+
+export {addToDb,clearDb, getStoredCart, removeDb}

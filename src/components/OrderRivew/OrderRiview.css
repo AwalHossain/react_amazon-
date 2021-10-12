@@ -1,0 +1,15 @@
+.container {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+.product-container {
+  border-right: 1px solid lightgray;
+  margin-right: 5px;
+  margin-left: 10px;
+}
+
+.search-bar {
+  background-color: rgba(0, 0, 0, 0.842);
+  line-height: 75px;
+  text-align: center;
+}

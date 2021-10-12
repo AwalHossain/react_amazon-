@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { addToDb, getStoredCart } from '../../utilities/fakedb';
 import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
@@ -9,7 +10,7 @@ const Shop = () => {
     const [cart, setCart] = useState([]);
     const [displayProducts, setDisplayProducts] = useState([])
     useEffect(()=>{
-        fetch('./products.JSON')
+        fetch('./products.json')
         .then(resp => resp.json())
         .then(data => { setProducts(data)
          setDisplayProducts(data)})
@@ -21,7 +22,6 @@ const Shop = () => {
         if(products.length){
             for(const key in storedData){
                 const addedProduct = products.find(product => product.key === key)
-                console.log(addedProduct);
                 if(addedProduct){
                     const quantity = storedData[key];
                     addedProduct.quantity= quantity;
@@ -31,11 +31,24 @@ const Shop = () => {
             }
         }
         setCart(storedCart)
-        console.log(storedCart);
     },[products])
+ 
     const handleClick = (product)=>{
-
-        const newCart = [...cart, product]
+        const exist = cart.find(pd=> pd.key === product.key)
+        let newCart = []
+        if(exist){
+            const rest = cart.filter(pd=> pd.key !== product.key)
+            console.log(rest)
+            exist.quantity = exist.quantity + 1
+            newCart = [...rest, product]
+        }
+        else{
+            product.quantity=1;
+            newCart = [...cart, product] 
+        }
+         
+        console.log(product)
+        console.log(newCart)
         setCart(newCart)
         addToDb(product.key)
     }
@@ -71,7 +84,11 @@ const Shop = () => {
             <div className="item-container">
                 <Cart
                 cart={cart}
-                ></Cart>
+                >
+                    <Link to="/riview">
+                    <button className='button'>Riview Order</button>
+                    </Link>
+                </Cart>
             </div>
            
         </main>
