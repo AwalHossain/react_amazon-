@@ -3,35 +3,44 @@ import { Link } from 'react-router-dom';
 import { addToDb, getStoredCart } from '../../utilities/fakedb';
 import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
+import useCart from '../useCart/useCart';
 import './Shop.css'
 
 const Shop = () => {
     const [products, setProducts] = useState([])
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] =useCart();
+    const [page,setPage] = useState(0)
+    const [pageCount, setPageCout] = useState(0)
     const [displayProducts, setDisplayProducts] = useState([])
+    const size = 10;
     useEffect(()=>{
-        fetch('./products.json')
+        fetch(`http://localhost:5000/products?page=${page}&&size=${size}`)
         .then(resp => resp.json())
-        .then(data => { setProducts(data)
-         setDisplayProducts(data)})
-    },[])
+        .then(data => {
+             setProducts(data.result)
+         setDisplayProducts(data.result)
+         const count = data.count;
+         const pageNumber = Math.ceil(count/size);
+         setPageCout(pageNumber)
+        })
+    },[page])
 
-    useEffect(()=>{
-        const storedData = getStoredCart();
-        const storedCart = [];
-        if(products.length){
-            for(const key in storedData){
-                const addedProduct = products.find(product => product.key === key)
-                if(addedProduct){
-                    const quantity = storedData[key];
-                    addedProduct.quantity= quantity;
-                   
-                    storedCart.push(addedProduct)
-                }
-            }
-        }
-        setCart(storedCart)
-    },[products])
+    // useEffect(()=>{
+    //     const storedData = getStoredCart();
+    //     const storedCart = [];
+    //     if(products.length){
+    //         for(const key in storedData){
+    //             const addedProduct = products.find(product => product.key === key)
+    //             if(addedProduct){
+    //                 const quantity = storedData[key];
+    //                 addedProduct.quantity= quantity;
+    //                 storedCart.push(addedProduct)
+
+    //             }
+    //         }
+    //     }
+    //     setCart(storedCart)
+    // },[products])
  
     const handleClick = (product)=>{
         const exist = cart.find(pd=> pd.key === product.key)
@@ -80,7 +89,17 @@ const Shop = () => {
                     )
                 } )
             }
+             <div className="pagination">
+            {
+                [...Array(pageCount).keys()].map(num =>
+                 <button
+                 className={num === page ? 'selected': ''}
+                onClick={()=> setPage(num)}
+                >{num}</button>)
+            }
             </div>
+            </div>
+
             <div className="item-container">
                 <Cart
                 cart={cart}

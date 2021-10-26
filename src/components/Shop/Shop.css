@@ -8,6 +8,18 @@
   margin-left: 10px;
 }
 
+.selected {
+  background-color: blue;
+  color: aliceblue;
+}
+
+.pagination {
+  margin: 20px;
+  padding: 10px;
+}
+.pagination > button {
+  margin-left: 14px;
+}
 .search-bar {
   background-color: rgba(0, 0, 0, 0.842);
   line-height: 75px;

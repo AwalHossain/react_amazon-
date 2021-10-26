@@ -18,7 +18,7 @@ const OrderRiview = () => {
         removeDb(key)
     }
     const handleClick=()=>{
-        clearDb()
+        // clearDb()
     }
     return (
         <>
@@ -36,7 +36,7 @@ const OrderRiview = () => {
                     <h3>Total:{products.length}</h3>
                     <h2>This is Order Section</h2>
                     <Cart cart={cart}>
-                    <Link to="/placeorder">
+                    <Link to="/order">
                     <button className='button' onClick={handleClick}>Place Order</button>
                     </Link>
                     </Cart>
